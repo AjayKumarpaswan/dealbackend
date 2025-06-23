@@ -18,9 +18,13 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+app.get("/",(req,res)=>{
+    res.send("Successfully connected to the server");
+})
 app.use('/api/auth', authRoutes);
 app.use('/api/deals', dealRoutes);
 app.use('/api/messages', messageRoutes);
+
 
 const port=process.env.PORT
 app.listen(port,()=>{
