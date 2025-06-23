@@ -11,6 +11,8 @@ exports.getMessages = async (req, res) => {
   try {
     const messages = await Message.find({ dealId: req.params.dealId });
     res.status(200).json(messages);
+
+    console.log("Messages fetched successfully for deal ID:",message);
   } catch (err) {
     res.status(500).json({ msg: 'Fetch failed', error: err });
   }

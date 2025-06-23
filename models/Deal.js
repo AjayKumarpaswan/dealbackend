@@ -6,8 +6,9 @@ const dealSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['Pending', 'In Progress', 'Completed', 'Cancelled'],
-    default: 'Pending',
-  },
+    default: 'Pending'
+  }
+  ,
   buyer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }, { timestamps: true }); // 💡 Add this to auto-track createdAt and updatedAt

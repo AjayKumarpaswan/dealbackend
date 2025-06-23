@@ -22,12 +22,31 @@ exports.createDeal = async (req, res) => {
 };
 exports.updateDeal = async (req, res) => {
   try {
-    const deal = await Deal.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!req.body || !req.body.status) {
+      return res.status(400).json({ msg: 'Status is required in request body' });
+    }
+
+    const { status } = req.body;
+    const { id } = req.params;
+
+    console.log("Updating deal ID:", id);
+    console.log("New status:", status);
+
+    const deal = await Deal.findByIdAndUpdate(id, { status }, { new: true });
+ console.log(deal)
+    if (!deal) {
+      return res.status(404).json({ msg: 'Deal not found' });
+    }
+
     res.status(200).json(deal);
   } catch (err) {
+    console.error("Error updating deal:", err);
     res.status(500).json({ msg: 'Failed to update deal', error: err });
   }
 };
+
+
+
 exports.getUserDeals = async (req, res) => {
   try {
     const deals = await Deal.find({
