@@ -46,6 +46,26 @@ exports.updateDeal = async (req, res) => {
 };
 
 
+exports. getDealById = async (req, res) => {
+  try {
+    const deal = await Deal.findById(req.params.id);
+
+    if (!deal) {
+      return res.status(404).json({ message: 'Deal not found' });
+    }
+
+    // Optional: Only allow access to the owner (seller)
+    if (deal.seller.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Unauthorized to access this deal' });
+    }
+
+    res.json(deal);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 
 exports.getUserDeals = async (req, res) => {
   try {
