@@ -46,16 +46,16 @@ exports.updateDeal = async (req, res) => {
 };
 
 
-exports. getDealById = async (req, res) => {
+exports.getDealById = async (req, res) => {
   try {
-    const deal = await Deal.findById(req.params.id);
+    const deal = await Deal.findById(req.params.id).populate('seller', 'username');
 
     if (!deal) {
       return res.status(404).json({ message: 'Deal not found' });
     }
 
     // Optional: Only allow access to the owner (seller)
-    if (deal.seller.toString() !== req.user.id) {
+    if (deal.seller._id.toString() !== req.user.id) {
       return res.status(403).json({ message: 'Unauthorized to access this deal' });
     }
 
